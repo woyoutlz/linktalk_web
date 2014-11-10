@@ -8,6 +8,17 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var htmlreplace = require('gulp-html-replace');
+var webserver = require('gulp-webserver');
+//web server
+gulp.task('webserver', function() {
+  gulp.src('.')
+    .pipe(webserver({
+      livereload: true,
+      directoryListing: false,
+      open: true,
+      fallback: 'index.html'
+    }));
+});
 // 检查脚本
 gulp.task('lint', function() {
     gulp.src('./js/*.js')
@@ -63,7 +74,7 @@ gulp.task('buildhtml_dev',function(){
 
 // 默认任务
 gulp.task('default_dev', function(){
-    gulp.run('lint', 'scripts','buildlib','buildhtml','buildjs');
+    gulp.run('lint', 'scripts','buildlib','buildhtml','buildjs','webserver');
 
     // 监听文件变化
     gulp.watch('./js/*.js', function(){
