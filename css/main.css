@@ -39,6 +39,10 @@ body{
 	position: relative;
 	-webkit-box-flex: 1;
 	min-height: 500px; 
+	/*max-height: 600px;*/
+	overflow-y: scroll;
+	overflow-x:hidden;
+	scrollbar-arrow-color:yellow;scrollbar-base-color:lightsalmo;
 	/*border-left: 2px solid rgba(0,0,0,0.3);*/
 }
 .book{
@@ -47,4 +51,7 @@ body{
 	top: 20px;
 	margin-top: 20px;
 	/*border: 1px solid black*/
+}
+.clickable{
+	cursor: pointer;
 }
