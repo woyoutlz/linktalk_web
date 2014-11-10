@@ -15,8 +15,8 @@ gulp.task('webserver', function() {
     .pipe(webserver({
       livereload: true,
       directoryListing: false,
-      open: true,
-      fallback: 'index.html'
+      open: true
+      // fallback: 'index.html'
     }));
 });
 // 检查脚本

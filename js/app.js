@@ -13,7 +13,7 @@ app.controller('bookController', ['$scope','$http', function($scope,$http) {
         success(function(data, status) {
           $scope.status = status;
           $scope.data = data;
-          console.log(data)
+          console.log(data);
         }).
         error(function(data, status) {
           $scope.data = data || "Request failed";
@@ -23,9 +23,10 @@ app.controller('bookController', ['$scope','$http', function($scope,$http) {
     };
     $scope.allbooks = function(){
     	fakeObj = [
-    		{name:'解忧杂货店',url:'http://book.douban.com/subject/25862578/',img:'http://img5.douban.com/mpic/s27284878.jpg'},
+    		{name:'解忧杂货店',url:'/views/web/viewer.html',img:'http://img5.douban.com/mpic/s27284878.jpg'},
     		{name:'百年孤独',url:'http://book.douban.com/subject/6082808/',img:'http://img3.douban.com/mpic/s6384944.jpg'}
     	];
     	$scope.books = fakeObj;
-    }
+    };
+    $scope.allbooks();
 }]);
