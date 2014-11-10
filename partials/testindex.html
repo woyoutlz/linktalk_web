@@ -1,0 +1,30 @@
+<div class="appall" ng-controller="bookController" >
+		<div class="titleup">
+			
+				<span class="titleInfo">所有图书</span>
+			
+			
+		</div>
+		<div class="infoDown ">
+			<div class="leftInfo ">
+				<div>
+					<div class="leftItem clickable "  ng-class="{choose:mainImageUrl==img}" ng-click="allbooks()">
+						<span class="itemtitle">所有图书</span>
+					</div>
+					<div class="leftItem clickable" ng-click="mybooks()">
+						<span class="itemtitle">我的图书</span>
+					</div>
+				</div>
+
+			</div>
+			<div class="rightInfo  ">
+				 <div  class="row">
+					<div ng-repeat="book in books" ng-mouseenter="hover(book)" ng-mouseleave="hover(book)"  class="book  col-sm-4 " >
+						<a href={{book.url}}><img  class="clickable" src={{book.img}}></a>
+						<span>{{book.name}}</span>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>

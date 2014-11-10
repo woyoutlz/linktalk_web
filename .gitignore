@@ -48,3 +48,4 @@ dist/
 spec/
 app/
 pdf/
+views/pdfview/
