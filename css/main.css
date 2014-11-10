@@ -1,0 +1,43 @@
+body{
+	height:100%;
+	width: 100%;
+	 position: absolute;
+}
+.appall{
+	display: -webkit-box;
+	-webkit-box-orient:vertical;
+	height: 100%;
+	
+}
+.titleup{
+	height: 60px;
+	box-shadow: 0 0 2px 0 rgba(0,0,0,.5);
+	position: relative;
+	top: 0px;
+}
+.titleInfo{
+	position: relative;
+	left: 300px;
+	top:15px;
+	 text-align:center;
+	 font-size: 30px;
+
+}
+.infoDown{
+	bottom: 0px;
+	-webkit-box-flex: 1;
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+}
+.leftInfo{
+	position: relative;
+	width: 300px;
+	min-height: 500px; 
+	border-right: 2px solid rgba(0,0,0,0.3);
+}
+.rightInfo{
+	position: relative;
+	-webkit-box-flex: 1;
+	min-height: 500px; 
+	/*border-left: 2px solid rgba(0,0,0,0.3);*/
+}
