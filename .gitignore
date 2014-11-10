@@ -46,3 +46,4 @@ node_modules/
 bower_components/
 dist/
 spec/
+app/

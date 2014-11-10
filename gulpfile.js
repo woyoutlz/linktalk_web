@@ -32,28 +32,38 @@ gulp.task('scripts', function() {
         .pipe(uglify())
         .pipe(gulp.dest('./dist'));
 });
+//将项目js文件放到相应位置
+gulp.task('buildjs',function(){
+
+  gulp.src('./js/*')
+      .pipe(gulp.dest('./app/js/'));
+  gulp.src('./js/*/*')
+      .pipe(gulp.dest('./app/js/'))
+});
 // 将bower的库文件对应到指定位置
+var libjsUrl = 'build/lib/js/';
 gulp.task('buildlib',function(){
 
   gulp.src('./bower_components/jquery/dist/jquery.min.js')
-      .pipe(gulp.dest('./app/build/lib/js/'))
+      .pipe(gulp.dest('./app/'+libjsUrl))
 });
 // 将html主文件生成合适的版本并放到合适的地方
 var buildhtmlType = 'buildhtml_'+buildType;
 gulp.task('buildhtml', [buildhtmlType]);
 gulp.task('buildhtml_dev',function(){
 
+   
   gulp.src('index.html')
     .pipe(htmlreplace({
         'css': ['styles.min.css','hehe.css'],
-        'js': 'main.js'
+        'js': [libjsUrl+'jquery.min.js']
     }))
       .pipe(gulp.dest('./app/'))
 });
 
 // 默认任务
 gulp.task('default_dev', function(){
-    gulp.run('lint', 'scripts','buildlib','buildhtml');
+    gulp.run('lint', 'scripts','buildlib','buildhtml','buildjs');
 
     // 监听文件变化
     gulp.watch('./js/*.js', function(){
