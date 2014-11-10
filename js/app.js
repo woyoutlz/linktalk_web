@@ -3,7 +3,7 @@ app.controller('bookController', ['$scope','$http', function($scope,$http) {
     $scope.todos = [
       {text:'learn angular', done:true},
       {text:'build an angular app', done:false}];
- 
+ 	$scope.books=[];
     $scope.allbooks1 = function() {
        $http({
        	method: 'get', 
@@ -23,9 +23,9 @@ app.controller('bookController', ['$scope','$http', function($scope,$http) {
     };
     $scope.allbooks = function(){
     	fakeObj = [
-    		{name:'解忧杂货店',url:'www.meihaohuaduo.com',img:'http://img5.douban.com/mpic/s27284878.jpg'},
-    		{name:'百年孤独',url:'www.nimeizide.com',img:'http://img3.douban.com/mpic/s6384944.jpg'}
+    		{name:'解忧杂货店',url:'http://book.douban.com/subject/25862578/',img:'http://img5.douban.com/mpic/s27284878.jpg'},
+    		{name:'百年孤独',url:'http://book.douban.com/subject/6082808/',img:'http://img3.douban.com/mpic/s6384944.jpg'}
     	];
-
+    	$scope.books = fakeObj;
     }
 }]);

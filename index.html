@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="linktalk">
+<html ng-app="linktalk" ng-cloak>
 <head>
 	<meta charset="UTF-8">
 	<title>哈哈</title>
@@ -8,85 +8,32 @@
 	<!-- endbuild -->
 	<link rel="stylesheet" href="css/main.css"></head>
 <body>
-	<div class="appall" ng-controller="bookController">
+	<div class="appall" ng-controller="bookController" >
 		<div class="titleup">
-			<span class="titleInfo">所有图书</span>
+			
+				<span class="titleInfo">所有图书</span>
+			
+			
 		</div>
 		<div class="infoDown ">
 			<div class="leftInfo ">
-				<ul>
-					<li>
-						<a class="clickable" ng-click="allbooks()">所有图书</a>
-					</li>
-				</ul>
+				<div>
+					<div class="leftItem clickable choose" ng-click="allbooks()">
+						<span class="itemtitle">所有图书</span>
+					</div>
+					<div class="leftItem clickable" ng-click="allbooks()">
+						<span class="itemtitle">我的图书</span>
+					</div>
+				</div>
 
 			</div>
 			<div class="rightInfo  ">
-				<div class="row">
-					<div class="book  col-sm-4">
-						<img src="http://img5.douban.com/mpic/s27284878.jpg">
-						<span>解忧杂货店</span>
+				 <div  class="row">
+					<div ng-repeat="book in books" ng-mouseenter="hover(book)" ng-mouseleave="hover(book)"  class="book  col-sm-4 " >
+						<a href={{book.url}}><img  class="clickable" src={{book.img}}></a>
+						<span>{{book.name}}</span>
 					</div>
-					<div class="book  col-sm-4">
-						<img src="http://img5.douban.com/mpic/s27284878.jpg">
-						<span>解忧杂货店</span>
-					</div>
-					<div class="book  col-sm-4">
-						<img src="http://img5.douban.com/mpic/s27284878.jpg">
-						<span>解忧杂货店</span>
-					</div>
-					<div class="book  col-sm-4">
-						<img src="http://img5.douban.com/mpic/s27284878.jpg">
-						<span>解忧杂货店</span>
-					</div>
-					<div class="book  col-sm-4">
-						<img src="http://img5.douban.com/mpic/s27284878.jpg">
-						<span>解忧杂货店</span>
-					</div>
-					<div class="book  col-sm-4">
-						<img src="http://img5.douban.com/mpic/s27284878.jpg">
-						<span>解忧杂货店</span>
-					</div>
-					<div class="book  col-sm-4">
-						<img src="http://img5.douban.com/mpic/s27284878.jpg">
-						<span>解忧杂货店</span>
-					</div>
-					<div class="book  col-sm-4">
-						<img src="http://img5.douban.com/mpic/s27284878.jpg">
-						<span>解忧杂货店</span>
-					</div>
-					<div class="book  col-sm-4">
-						<img src="http://img5.douban.com/mpic/s27284878.jpg">
-						<span>解忧杂货店</span>
-					</div>
-					<div class="book  col-sm-4">
-						<img src="http://img5.douban.com/mpic/s27284878.jpg">
-						<span>解忧杂货店</span>
-					</div>
-					<div class="book  col-sm-4">
-						<img src="http://img5.douban.com/mpic/s27284878.jpg">
-						<span>解忧杂货店</span>
-					</div>
-					<div class="book  col-sm-4">
-						<img src="http://img5.douban.com/mpic/s27284878.jpg">
-						<span>解忧杂货店</span>
-					</div>
-					<div class="book  col-sm-4">
-						<img src="http://img5.douban.com/mpic/s27284878.jpg">
-						<span>解忧杂货店</span>
-					</div>
-					<div class="book  col-sm-4">
-						<img src="http://img5.douban.com/mpic/s27284878.jpg">
-						<span>解忧杂货店</span>
-					</div>
-					<div class="book  col-sm-4">
-						<img src="http://img5.douban.com/mpic/s27284878.jpg">
-						<span>解忧杂货店</span>
-					</div>
-					<div class="book  col-sm-4">
-						<img src="http://img5.douban.com/mpic/s27284878.jpg">
-						<span>解忧杂货店</span>
-					</div>
+					
 				</div>
 			</div>
 		</div>
