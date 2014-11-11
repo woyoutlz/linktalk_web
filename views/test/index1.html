@@ -8,13 +8,19 @@ alert("parent.html------>I'm at parent.html");
 function callChild()
 {
 //document.frames["myFrame"].window.say();//只适用于ie浏览器
-myFrame.window.say();
+// myFrame.say();
+alert(myFrame.hehe.name);
 myFrame.window.document.getElementById("button").value="我变了";
+}
+function callChild2(){
+	$(window.frames["myFrame"].document).find("p").css("color","red");
 }
 </script>
 </head>
 <body>
-	<input type=button value="调用child.html中的函数say()" onclick="callChild()">
-	<iframe name="myFrame" src="index2.html"></iframe>
+	<p>parents</p>
+	<input type=button value="调用child.html中的函数say()" onclick="callChild2()">
+	<iframe name="myFrame" src="index2.html" id="myframeid"></iframe>
+	<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
 </body>
 </html>

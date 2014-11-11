@@ -2,17 +2,24 @@
 <head>
 <meta charset="UTF-8">
 <script type="text/javascript">
+hehe ={name:'yangyu'}
 function say()
 {
 alert("child.html--->I'm at child.html");
 }
 function callParent() {
-parent.say();
+parent.window.say();
 parent.window.document.getElementsByName("myFrame")[0].style.height="100px";
+}
+function callParent2(){
+	console.log(1);
+	$(parent.document.body).find("p").css("color","red");
 }
 </script>
 </head>
 <body>
-<input id="button" type=button value="调用parent.html中的say()函数" onclick="callParent()">
+<p>nihao</p>
+<input id="button" type=button value="调用parent.html中的say()函数" onclick="callParent2()">
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
 </body>
 </html>
