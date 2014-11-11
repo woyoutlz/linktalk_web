@@ -27,6 +27,13 @@ app.controller('bookController', ['$scope','$http', function($scope,$http) {
     		{name:'百年孤独',url:'http://book.douban.com/subject/6082808/',img:'http://img3.douban.com/mpic/s6384944.jpg'}
     	];
     	$scope.books = fakeObj;
+       $scope.ifmybooks = false;
+      $scope.ifallbooks = true;
     };
-    $scope.allbooks();
+    $scope.mybooks = function(){
+      $scope.books =[];
+      $scope.ifmybooks = true;
+      $scope.ifallbooks = false;
+    };
+     $scope.allbooks();
 }]);
