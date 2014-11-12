@@ -1,0 +1,36 @@
+<html>
+  <head>
+<script src='https://cdn.firebase.com/js/client/2.0.2/firebase.js'></script>
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+  </head>
+  <body>
+   <div id='messagesDiv'></div>
+   <input type='text' id='nameInput' placeholder='zans'>
+    <input type='text' id='messageInput' placeholder='time'>
+      <script>
+ var myDataRef = new Firebase('https://yangyu-linktalk.firebaseio.com/book3/page4');
+   $('#messageInput').keypress(function (e) {
+        if (e.keyCode == 13) {
+          var zans = parseInt($('#nameInput').val()) ;
+          var times = parseInt($('#messageInput').val());
+         myDataRef.push({zans: zans, time: times});
+          $('#messageInput').val('');
+        }
+      });
+//    myDataRef.on('child_added', function(snapshot) {
+//   //We'll fill this in later.
+//   var message = snapshot.val();
+// displayChatMessage(message.zans, message.time);
+// });
+   myDataRef.orderByChild("time").on("child_added", function(snapshot) {
+  // console.log(snapshot.key() + " was " + snapshot.val().height + " meters tall");
+   var message = snapshot.val();
+displayChatMessage(message.zans, message.time);
+});
+     function displayChatMessage(name, text) {
+        $('<div/>').text(text).prepend($('<em/>').text(name+': ')).appendTo($('#messagesDiv'));
+        $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
+      };
+    </script>
+  </body>
+</html>
