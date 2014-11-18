@@ -146,8 +146,23 @@ function doinit() {
 	freshPinglunData();
 	bindButtonEvent();
 	bindModalEvent();
+	loadHandlebarModels();
 }
+var handleTemp = {};
+function loadHandlebarModels(){
+	$.ajax({
+		type: "get",
+		url: "modals/postInfo.html",
+		success: function(data) {
+			if (!data) {
 
+				return;
+			};
+			handleTemp.postInfo = Handlebars.compile(data);
+		
+		}
+	})
+}
 function useFullUI() {
 	$(parent.document.body).find("#chajianiframe").css("width", "100%");
 }
@@ -233,8 +248,23 @@ function logout() {
 	$(".userName").html("");
 	$(".denglubtn").css("display", "");
 }
-
 function loadPinglunData(dataIn) {
+	var ss = $.map(dataIn, function(value, key) {
+		var context = {
+			zanNum: value.zanNum,
+			 title: value.title,
+			 username:value.userName,
+			 keyid:key,
+			 time:value.Datein
+		}
+		var html = handleTemp.postInfo(context);
+		return html;
+	})
+
+	$("#container").html(ss);
+	bindCommentEvent();
+}
+function loadPinglunData1(dataIn) {
 	var ss = $.map(dataIn, function(value, key) {
 		var aLi = '<li class="pinglunLi" keyid=' + key + '>' +
 
@@ -253,7 +283,7 @@ function loadPinglunData(dataIn) {
 }
 
 function bindCommentEvent() {
-	$(".pinglunLi").click(function() {
+	$(".p_title").click(function() {
 		var keyid = $(this).attr("keyid");
 		loadComment(keyid);
 	})

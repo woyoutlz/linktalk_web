@@ -108,3 +108,26 @@ p{
 	position: absolute;
 	top: 10px
 }
+.postInfo{
+	margin-bottom: 10px;
+	display: -webkit-box;
+	-webkit-box-orient:horizontal;
+}
+.zansInfo{
+	margin-left: 10px;
+	width: 20px;
+}
+.titleInfo{
+	-webkit-box-flex: 1;
+}
+.p_title{
+	color: #551a8b;
+}
+.p_pinfo{
+	font-size: x-small; 
+	color:#888;
+}
+.p_puserName{
+	margin-left: 5px;
+	color: #369;
+}
