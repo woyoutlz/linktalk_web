@@ -23,6 +23,34 @@
 	background: white;
 	-webkit-box-orient:vertical;
 }
+#planeClose{
+	position: absolute;
+	right: 10px;
+}
+.container3{
+	/*width: 300px;*/
+	height: 100%;
+	display: -webkit-box;
+	background: transparent;
+	-webkit-box-orient:horizontal;
+	overflow-x: hidden;
+}
+.planeTextarea{
+	width: 100%;
+	height: 200px;
+	resize:none;
+}
+.detailView{
+	width: 400px;
+	height: 100%;
+	background: rgba(200,200,200,1);
+	/*background-color: white;*/
+	position: relative;
+}
+.detail_header{
+	position: relative;
+	margin-bottom: 20px;
+}
 #pinglunAreaID{
 	width: 550px;
 	height: 216px;

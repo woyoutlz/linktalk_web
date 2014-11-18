@@ -3,6 +3,12 @@
 var user = {
 	islogin:false
 }
+var UIconfig = {
+	min:'300px',
+	now:'300px',
+	full:'100%'
+}
+var pageData ;
 function getPingLunByUrl(url) {
 	$.ajax({
 		type: "get",
@@ -62,7 +68,7 @@ function freshPinglunData() {
 			if (!message) {
 				return;
 			}
-
+			pageData = message;
 			loadPinglunData(message);
 
 
@@ -140,6 +146,14 @@ function bindButtonEvent() {
 		content:"<a class='btn' onclick='logout()'>退出</a>",
 		html:true
 		});
+	$("#planeClose").click(function(){
+		planeHideAndReset();
+	})
+}
+function planeHideAndReset(){
+	$(".detailView").hide();
+	UIconfig.now = "300px";
+	useNowUI();
 }
 function logout(){
 
@@ -151,7 +165,7 @@ function logout(){
 }
 function loadPinglunData(dataIn) {
 	var ss = $.map(dataIn, function(value, key) {
-		var aLi = '<li class="pinglunLi">' +
+		var aLi = '<li class="pinglunLi" keyid='+key+ '>' +
 
 			'<p class="nameP"><span class="zanNum">' +
 			value.zanNum +
@@ -164,8 +178,45 @@ function loadPinglunData(dataIn) {
 	})
 
 	$("#container").html(ss);
+	bindCommentEvent();
 }
+function bindCommentEvent(){
+	$(".pinglunLi").click(function(){
+		var keyid  = $(this).attr("keyid");
+		loadComment(keyid);
+	})
+}
+function loadComment(keyid){
+	// $(".container3").css("width","600px");
+	planeShow();
+	loadPlane(keyid);
+	UIconfig.now = "700px";
+	useNowUI();
+}
+function loadPlane(keyid){
+	if (pageData && pageData.length!=0) {
+		var value = pageData[keyid];
+		var $textarea = $("<textarea class='planeTextarea'></textarea>")
+		var aLi = '<li class="pinglunLi">' +
 
+			'<p class="nameP"><span class="zanNum">' +
+			value.zanNum +
+			'</span><span class="pinglunname">' +
+			value.userName +
+			'</span>:</p>' +
+			
+			'</li>';
+		$(".detail_content").html(aLi);
+		$(".detail_content").append(marked('# Marked in browser\n\nRendered by **marked**.'));
+		$textarea.val(value.text);
+	};
+}
+function planeShow(){
+	$(".detailView").show();
+}
+function useNowUI(){
+	$(parent.document.body).find("#chajianiframe").css("width", UIconfig.now);
+}
 function useNormalUI() {
 	$(parent.document.body).find("#chajianiframe").css("width", "300px");
 }
