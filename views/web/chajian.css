@@ -131,3 +131,6 @@ p{
 	margin-left: 5px;
 	color: #369;
 }
+.post_showHtmlBtn{
+	cursor: pointer;
+}

@@ -77,6 +77,21 @@ function loadTieziModal() {
 					freshPinglunData();
 
 				});
+			$(".post_showHtmlBtn").click(function(){
+				
+				var display = $("#tieziContentAreaID").css("display");
+				if (display=="none") {
+					$("#tieziContentAreaID").show();
+					$("#tieziHtmlAreaID").hide();
+				}else{
+					var content =  $("#tieziContentAreaID").val();
+				
+					$("#tieziHtmlAreaID").html(marked(content))
+					$("#tieziContentAreaID").hide();
+					$("#tieziHtmlAreaID").show();
+				}
+				
+			});
 				//show
 			$("#tieziModal").modal("show");
 		}
@@ -162,6 +177,20 @@ function loadHandlebarModels(){
 		
 		}
 	})
+	$.ajax({
+		type: "get",
+		url: "modals/detailPost.html",
+		success: function(data) {
+			if (!data) {
+
+				return;
+			};
+			$(".container3").append(data);
+			$("#planeClose").click(function() {
+			planeHideAndReset();
+			})
+		}
+	})
 }
 function useFullUI() {
 	$(parent.document.body).find("#chajianiframe").css("width", "100%");
@@ -225,9 +254,7 @@ function bindButtonEvent() {
 		content: "<a class='btn' onclick='logout()'>退出</a>",
 		html: true
 	});
-	$("#planeClose").click(function() {
-		planeHideAndReset();
-	})
+	
 	$(".tieziBtn").click(function() {
 		useFullUI();
 		loadTieziModal();
@@ -301,15 +328,15 @@ function loadPlane(keyid) {
 	if (pageData && pageData.length != 0) {
 		var value = pageData[keyid];
 		
-		var aLi = '<div class="contentUserDiv">'+
-		value.userName
-		+'</div>'+
-		'<div class="titleDiv">' +
-
-			value.title+
-
-			'</div>';
-		$(".detail_content").html(aLi);
+	var context = {
+			zanNum: value.zanNum,
+			 title: value.title,
+			 username:value.userName,
+			 keyid:null,
+			 time:value.Datein
+		}
+		var html = handleTemp.postInfo(context);
+		$(".detail_content").html(html);
 		$(".detail_content").append(marked(value.content));
 		
 	};
