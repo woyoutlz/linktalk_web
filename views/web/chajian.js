@@ -257,6 +257,17 @@ function doinit() {
 	bindButtonEvent();
 	bindModalEvent();
 	loadHandlebarModels();
+	ifparentOnchange();
+}
+function ifparentOnchange(){
+	if (parent.window.PDFView) {
+		$(parent.document.body).find("#pageNumber").on("change",function(){
+			alert("changed");
+		});
+	};
+	$("#testInput").on("change",function(){
+			alert("changed");
+		});
 }
 var handleTemp = {};
 
