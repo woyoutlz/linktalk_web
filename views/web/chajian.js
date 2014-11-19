@@ -23,7 +23,93 @@ function getPingLunByUrl(url) {
 		}
 	})
 }
+function loadpieceModal(){
+	$("#postPieceModal").remove();
+	$.ajax({
+		type: "get",
+		url: "modals/postPieceModal.html",
+		success: function(data) {
+			if (!data) {
 
+				return;
+			};
+			var $piece = $(data);
+			$("body").append($piece);
+			//重绑定事件
+			$('#postPieceModal').on('shown.bs.modal', function(e) {
+				// $("#userInput").focus();
+			});
+			$('#postPieceModal').on('hidden.bs.modal', function(e) {
+				useNormalUI();
+
+			})
+			$("#postPiece_fabu").click(function() {
+
+				var name = user.name||"user";
+			
+				var content = $("#postPieceContentAreaID").val();
+				var pageUrl = nowPage;
+
+				var zanNum = 0;
+
+
+				var mydate = new Date();
+				var pinglunDate = mydate.toLocaleString();
+				var timerInter = mydate.getTime()
+				var postId = timerInter + name;
+
+
+				var objupdate = {
+
+				}
+				objupdate[postId] = {
+						userName: name||"user",
+						content: content,
+						urlID: pageUrl,
+						Datein: pinglunDate,
+						zanNum: zanNum
+					}
+					// thingsMod.push({userName: name, text: text,urlID:pageUrl,Datein:pinglunDate,Pid:pinglunId,backId:backId});
+				var postRef = piecePagepRef.child(nowPost);	
+				postRef.update(objupdate);
+				$('#postPieceModal').modal('hide');
+				freshPieceData();
+				})
+				//show
+
+			$("#postPieceModal").modal("show");
+		}
+	})
+}
+function freshPieceData(){
+		var postRef = piecePagepRef.child(nowPost);	
+		postRef.once("value",function(snapshot){
+			var obj = snapshot.val();
+			console.log(obj);
+			loadPieceData(obj);
+		})
+}
+function loadPieceData(dataIn){
+	var ss = $.map(dataIn, function(value, key) {
+		var content = value.content;
+		var html1 = marked(content);
+		var context= {
+			time:value.Datein,
+			name:value.userName,
+			zanNum:value.zanNum
+		}
+		var html2 = handleTemp.pieceshow(context)
+		var $div = $(html2);
+		$div.find(".pieceContent").html(html1);
+		
+		// marked(content);
+		return $div;
+	})
+
+	$(".piecesContent").html(ss);
+
+	// bindCommentEvent();
+}
 function loadTieziModal() {
 	$("#tieziModal").remove();
 	$.ajax({
@@ -45,54 +131,54 @@ function loadTieziModal() {
 
 			})
 			$("#tiezi_fabu").click(function() {
-					var name = user.name;
-					var title = $('#tieziTitleAreaID').val();
-					var content = $("#tieziContentAreaID").val();
-					var pageUrl = nowPage;
-					
-					var zanNum = 0;
+				var name = user.name;
+				var title = $('#tieziTitleAreaID').val();
+				var content = $("#tieziContentAreaID").val();
+				var pageUrl = nowPage;
 
-					
-					var mydate = new Date();
-					var pinglunDate = mydate.toLocaleString();
-					var timerInter = mydate.getTime()
-					var postId = timerInter + name;
+				var zanNum = 0;
 
 
-					var objupdate = {
+				var mydate = new Date();
+				var pinglunDate = mydate.toLocaleString();
+				var timerInter = mydate.getTime()
+				var postId = timerInter + name;
 
+
+				var objupdate = {
+
+				}
+				objupdate[postId] = {
+						userName: name,
+						title: title,
+						content: content,
+						urlID: pageUrl,
+						Datein: pinglunDate,
+						Pid: pageUrl + "/" + postId,
+						zanNum: zanNum
 					}
-					objupdate[postId] = {
-							userName: name,
-							title: title,
-							content:content,
-							urlID: pageUrl,
-							Datein: pinglunDate,
-							Pid: pageUrl + "/" + postId,
-							zanNum: zanNum
-						}
-						// thingsMod.push({userName: name, text: text,urlID:pageUrl,Datein:pinglunDate,Pid:pinglunId,backId:backId});
-					nowPageRef.update(objupdate);
-					$('#tieziModal').modal('hide');
-					freshPinglunData();
+					// thingsMod.push({userName: name, text: text,urlID:pageUrl,Datein:pinglunDate,Pid:pinglunId,backId:backId});
+				nowPageRef.update(objupdate);
+				$('#tieziModal').modal('hide');
+				freshPinglunData();
 
-				});
-			$(".post_showHtmlBtn").click(function(){
-				
+			});
+			$(".post_showHtmlBtn").click(function() {
+
 				var display = $("#tieziContentAreaID").css("display");
-				if (display=="none") {
+				if (display == "none") {
 					$("#tieziContentAreaID").show();
 					$("#tieziHtmlAreaID").hide();
-				}else{
-					var content =  $("#tieziContentAreaID").val();
-				
+				} else {
+					var content = $("#tieziContentAreaID").val();
+
 					$("#tieziHtmlAreaID").html(marked(content))
 					$("#tieziContentAreaID").hide();
 					$("#tieziHtmlAreaID").show();
 				}
-				
+
 			});
-				//show
+			//show
 			$("#tieziModal").modal("show");
 		}
 	})
@@ -155,8 +241,10 @@ function freshPinglunData() {
 	// getPingLunByUrl();
 var myDataRef = new Firebase('https://yangyu-linktalk.firebaseio.com/posts');
 var nowPage = "b1p1";
+var nowPost="";
 var nowPageRef = myDataRef.child(nowPage);
-
+var pieceRef = new Firebase('https://yangyu-linktalk.firebaseio.com/postpiece');
+var piecePagepRef = pieceRef.child(nowPage);
 function doinit() {
 	freshPinglunData();
 	bindButtonEvent();
@@ -164,7 +252,9 @@ function doinit() {
 	loadHandlebarModels();
 }
 var handleTemp = {};
-function loadHandlebarModels(){
+
+function loadHandlebarModels() {
+	handleTemp.postPiece = "<div class='apostPiece'></div>";
 	$.ajax({
 		type: "get",
 		url: "modals/postInfo.html",
@@ -174,7 +264,19 @@ function loadHandlebarModels(){
 				return;
 			};
 			handleTemp.postInfo = Handlebars.compile(data);
-		
+
+		}
+	})
+	$.ajax({
+		type: "get",
+		url: "modals/pieceshow.html",
+		success: function(data) {
+			if (!data) {
+
+				return;
+			};
+			handleTemp.pieceshow = Handlebars.compile(data);
+
 		}
 	})
 	$.ajax({
@@ -186,12 +288,16 @@ function loadHandlebarModels(){
 				return;
 			};
 			$(".container3").append(data);
+			$("#d_huitie").click(function(){
+				loadpieceModal();
+			})
 			$("#planeClose").click(function() {
-			planeHideAndReset();
+				planeHideAndReset();
 			})
 		}
 	})
 }
+
 function useFullUI() {
 	$(parent.document.body).find("#chajianiframe").css("width", "100%");
 }
@@ -208,7 +314,7 @@ function bindButtonEvent() {
 			// $("textarea").focus();
 
 	})
-	$(".refreshbtn").click(function(){
+	$(".refreshbtn").click(function() {
 		freshPinglunData();
 	})
 	$("#pinglun_fabu").click(function() {
@@ -254,7 +360,7 @@ function bindButtonEvent() {
 		content: "<a class='btn' onclick='logout()'>退出</a>",
 		html: true
 	});
-	
+
 	$(".tieziBtn").click(function() {
 		useFullUI();
 		loadTieziModal();
@@ -275,22 +381,25 @@ function logout() {
 	$(".userName").html("");
 	$(".denglubtn").css("display", "");
 }
+
 function loadPinglunData(dataIn) {
 	var ss = $.map(dataIn, function(value, key) {
 		var context = {
 			zanNum: value.zanNum,
-			 title: value.title,
-			 username:value.userName,
-			 keyid:key,
-			 time:value.Datein
+			title: value.title,
+			username: value.userName,
+			keyid: key,
+			time: value.Datein
 		}
 		var html = handleTemp.postInfo(context);
 		return html;
 	})
 
 	$("#container").html(ss);
+
 	bindCommentEvent();
 }
+
 function loadPinglunData1(dataIn) {
 	var ss = $.map(dataIn, function(value, key) {
 		var aLi = '<li class="pinglunLi" keyid=' + key + '>' +
@@ -314,6 +423,73 @@ function bindCommentEvent() {
 		var keyid = $(this).attr("keyid");
 		loadComment(keyid);
 	})
+	$(".postUpBtn").click(function() {
+		var keyid = $(this).attr("keyid");
+		UIUpSoon($(this).parents(".zansInfo"));
+		upByKeyid(keyid);
+		$(this).css("color","#3385ff");
+	})
+	$(".postDownBtn").click(function() {
+		var keyid = $(this).attr("keyid");
+		UIDownSoon($(this).parents(".zansInfo"));
+		downByKeyid(keyid);
+		$(this).css("color","#3385ff");
+	})
+}
+function UIDownSoon($som){
+	var zannumstr = $som.find(".postZanNum").html();
+	var zanNum = parseInt(zannumstr);
+	zanNum = zanNum-1;
+	$som.find(".postZanNum").html(""+zanNum);
+}
+function UIUpSoon($som){
+	var zannumstr = $som.find(".postZanNum").html();
+	var zanNum = parseInt(zannumstr);
+	zanNum = zanNum+1;
+	$som.find(".postZanNum").html(""+zanNum);
+}	
+function upByKeyid(keyid) {
+	if (pageData && pageData.length != 0) {
+		// var value = pageData[keyid];
+		// var zanId = value.Pid;
+		// var localArray = zanId.split("/");
+		
+		var theTiezi = nowPageRef.child(keyid);
+		theTiezi.once("value", function(snapshot) {
+			var tieziget = snapshot.val();
+			// pinglun.off("value");
+
+			theTiezi.update({
+				zanNum: tieziget.zanNum + 1
+			});
+
+		}, function(errorObject) {
+			console.log("The read failed: " + errorObject.code);
+		});
+
+	};
+}
+
+function downByKeyid(keyid) {
+	if (pageData && pageData.length != 0) {
+		// var value = pageData[keyid];
+		// var zanId = value.Pid;
+		// var localArray = zanId.split("/");
+		
+		var theTiezi = nowPageRef.child(keyid);
+		theTiezi.once("value", function(snapshot) {
+			var tieziget = snapshot.val();
+			// pinglun.off("value");
+
+			theTiezi.update({
+				zanNum: tieziget.zanNum -1
+			});
+
+		}, function(errorObject) {
+			console.log("The read failed: " + errorObject.code);
+		});
+
+	};
 }
 
 function loadComment(keyid) {
@@ -326,22 +502,28 @@ function loadComment(keyid) {
 
 function loadPlane(keyid) {
 	if (pageData && pageData.length != 0) {
+		nowPost = keyid;
 		var value = pageData[keyid];
-		
-	var context = {
+
+		var context = {
 			zanNum: value.zanNum,
-			 title: value.title,
-			 username:value.userName,
-			 keyid:null,
-			 time:value.Datein
+			title: value.title,
+			username: value.userName,
+			keyid: null,
+			time: value.Datein
 		}
 		var html = handleTemp.postInfo(context);
-		$(".detail_content").html(html);
-		$(".detail_content").append(marked(value.content));
-		
+		$(".postContent").html(html);
+		var ss = $(handleTemp.postPiece).append(marked(value.content))
+		$(".postContent").append(ss);
+		$(".piecesContent").html("");
+		loadPiecesByID(keyid);
+
 	};
 }
-
+function loadPiecesByID(keyid){
+	freshPieceData()
+}
 function planeShow() {
 	$(".detailView").show();
 }
@@ -362,7 +544,6 @@ function bindModalEvent() {
 	$('#myModal').on('shown.bs.modal', function(e) {
 		$("#pinglunAreaID").focus();
 	})
-
 
 }
 
