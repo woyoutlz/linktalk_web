@@ -308,7 +308,11 @@ function loadHandlebarModels() {
 function useFullUI() {
 	$(parent.document.body).find("#chajianiframe").css("width", "100%");
 }
-
+function getNowPage(){
+	var page =  parent.window.PDFView.page;
+	var url = "b1p"+page;
+	loadPage(url);
+}
 function bindButtonEvent() {
 	$(".addPinglun").click(function() {
 
@@ -322,7 +326,8 @@ function bindButtonEvent() {
 
 	})
 	$(".refreshbtn").click(function() {
-		freshPinglunData();
+		getNowPage();
+		
 	})
 	$("#pinglun_fabu").click(function() {
 		var name = user.name;
