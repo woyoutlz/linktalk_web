@@ -228,6 +228,7 @@ function freshPinglunData() {
 			var message = snapshot.val();
 			// pinglun.off("value");
 			if (!message) {
+				$("#container").html("没有数据")
 				return;
 			}
 			pageData = message;
@@ -245,6 +246,12 @@ var nowPost="";
 var nowPageRef = myDataRef.child(nowPage);
 var pieceRef = new Firebase('https://yangyu-linktalk.firebaseio.com/postpiece');
 var piecePagepRef = pieceRef.child(nowPage);
+function loadPage(pageUrl){
+	 nowPage = pageUrl;
+	 nowPageRef = myDataRef.child(nowPage);
+	 piecePagepRef = pieceRef.child(nowPage);
+	 freshPinglunData();
+}
 function doinit() {
 	freshPinglunData();
 	bindButtonEvent();
